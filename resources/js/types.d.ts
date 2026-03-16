@@ -1,13 +1,8 @@
 // global.d.ts
-declare module "@inertiajs/core" {
-  export interface InertiaConfig {
-    sharedPageProps: {
-      auth: { user: { id: number; name: string } | null };
-      appName: string;
-    };
-    flashDataType: {
-      toast?: { type: "success" | "error"; message: string };
-    };
-    errorValueType: string[];
-  }
+
+import { PageProps } from "@inertiajs/core";
+import { OffsetPaginatedResponse } from "./shared/types/paginated-data";
+
+export interface PageWithPagination<M> extends PageProps {
+  categoryPagination?: OffsetPaginatedResponse<M>;
 }

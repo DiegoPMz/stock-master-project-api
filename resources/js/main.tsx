@@ -13,9 +13,14 @@ createInertiaApp({
   resolve: (name: string) => {
     const pages = import.meta.glob("./**/*.tsx", { eager: true });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (pages[`./${name}.tsx`] as any).default;
+    return pages[`./${name}.tsx`] as any;
   },
   setup({ el, App, props }: SetupTypes) {
     createRoot(el).render(createElement(App, props));
+  },
+  defaults: {
+    visitOptions: () => {
+      return { viewTransition: true };
+    },
   },
 });

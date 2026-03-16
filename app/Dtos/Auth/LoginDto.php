@@ -2,9 +2,7 @@
 
 namespace App\Dtos\Auth;
 
-use Illuminate\Http\Request;
-
-readonly class LoginDto
+final readonly class LoginDto
 {
     public function __construct(
         public string $email,
@@ -12,12 +10,12 @@ readonly class LoginDto
         public bool $remember = false
     ) {}
 
-    public static function fromRequest(Request $request): self
+    public static function fromRequest(array $validated): self
     {
         return new self(
-            email: $request->validated('email'),
-            password: $request->validated('password'),
-            remember: $request->boolean('remember')
+            email: $validated['email'],
+            password: $validated['password'],
+            remember: $validated['remember']
         );
     }
 }

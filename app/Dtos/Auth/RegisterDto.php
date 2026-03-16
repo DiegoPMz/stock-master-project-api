@@ -2,9 +2,7 @@
 
 namespace App\Dtos\Auth;
 
-use Illuminate\Http\Request;
-
-readonly class RegisterDto
+final readonly class RegisterDto
 {
     public function __construct(
         public string $email,
@@ -13,13 +11,13 @@ readonly class RegisterDto
         public string $full_name
     ) {}
 
-    public static function fromRequest(Request $request): self
+    public static function fromRequest(array $validated): self
     {
         return new self(
-            email: $request->validated('email'),
-            password: $request->validated('password'),
-            confirmed_password: $request->validated('confirmed_password'),
-            full_name: $request->validated('full_name'),
+            email: $validated['email'],
+            password: $validated['password'],
+            confirmed_password: $validated['confirmed_password'],
+            full_name: $validated['full_name']
         );
     }
 }

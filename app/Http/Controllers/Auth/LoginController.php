@@ -22,15 +22,19 @@ class LoginController extends Controller
     public function store(LoginRequest $request)
     {
         $result = $this->loginService->execute($request->toDto());
+        $successValue = $result->success();
 
-        if ($result->success()) {
-            Auth::login($result->success(), $request->boolean('remember'));
-
+        if ($successValue->isDefined()) {
+            Auth::login($successValue->get(), $request->boolean('remember'));
             $request->session()->regenerate();
 
-            return redirect()->intended(Route('dashboard'));
+            return redirect()->intended(route('categories.index'));
         }
 
-        return back()->withErrors(['email' => $result->error()]);
+        $error = $result->error()->get();
+
+        return back()->withErrors([
+            'email' => $error->message ?: 'Login failed: '.$error->code,
+        ]);
     }
 }

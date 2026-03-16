@@ -22,13 +22,18 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request)
     {
         $result = $this->registerService->execute($request->toDto());
+        $successValue = $result->success();
 
-        if ($result->success()) {
-            Auth::login($result->success());
+        if ($successValue->isDefined()) {
+            Auth::login($successValue->get());
 
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('categories.index'));
         }
 
-        return back()->withErrors(['error' => $result->error()]);
+        $error = $result->error()->get();
+
+        return back()->withErrors([
+            'error' => $error->message ?: 'Login failed: '.$error->code,
+        ]);
     }
 }

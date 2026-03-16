@@ -8,7 +8,7 @@ use App\Models\User;
 use GrahamCampbell\ResultType\Result;
 use GrahamCampbell\ResultType\Success;
 
-class EloquentRegisterService implements RegisterContract
+final readonly class EloquentRegisterService implements RegisterContract
 {
     public function execute(RegisterDto $data): Result
     {
